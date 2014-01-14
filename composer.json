@@ -1,0 +1,15 @@
+{
+	"name": "madebydavid/woocommerce-basket-item-metadata",
+	"description": "Add a custom metadata field to the product page when someone orders an item",
+	"type": "wordpress-plugin",
+	"require": {
+		"composer/installers": "~1.0",
+        "phpunit/phpunit": "3.7.*"
+	},
+    "autoload":	{
+		"psr-0": {
+			"MadeByDavid"		: "src/"
+		}
+	}
+
+}
