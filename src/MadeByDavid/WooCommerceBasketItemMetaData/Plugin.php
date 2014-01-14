@@ -16,7 +16,11 @@ class Plugin {
         /* class to load the settings */
         $this->configuration = new PluginConfiguration();
         
-        add_filter('woocommerce_add_to_cart_validation', array($this, 'avenge'), 10, 3);
+        add_filter('woocommerce_add_cart_item_data', array($this, 'addItemMeta'), 10, 2);
+        add_filter('woocommerce_get_cart_item_from_session', array($this, 'getCartItemFromSession'), 10, 2);
+        add_filter('woocommerce_get_item_data',array($this, 'getOrderItemMeta'), 10, 2);
+        add_action('woocommerce_add_order_item_meta', array($this, 'addOrderItemMeta'), 10, 2);
+        
         
         if (is_admin()) {
             $this->admin = new PluginAdmin($this);
@@ -28,34 +32,42 @@ class Plugin {
         
     }
     
-    function avenge($valid, $product_id, $quantity) {
-        
-        global $woocommerce;
-        
-        if (0 === (int)$this->getConfiguration()->getSelfishCategoryID()) {
-            return true;
+
+    function addOrderItemMeta($itemId, $cartItem) {
+        if (isset($cartItem['TESTING'])) {
+            woocommerce_add_order_item_meta( $itemId, 'SOMETHING', $cartItem['TESTING'] );
         }
-        
-        $product = new \WC_Product($product_id);
-        if (!$product->exists()) {
-            throw new \Exception('Invalid product Id added to basket');
+    }
+    
+    function getOrderItemMeta($otherData, $cartItem) {
+    
+        if (isset($cartItem['TESTING'])) {
+            error_log("setting");
+            $otherData[] = array(
+                    'name' => 'SOMETHING',
+                    'value'=> $cartItem['TESTING'],
+                    'display' => 'yes'
+            );
         }
-        
-        if ($this->isASelfishProduct($product_id)) {
-            /* we're adding the selfish category - so empty the cart */
-            $woocommerce->cart->remove_coupons();
-            $woocommerce->cart->empty_cart();
-            return true;
+    
+        return $otherData;
+    }
+    
+    function getCartItemFromSession($cartItem, $values) {
+    
+        if (isset($values['TESTING'])) {
+            $cartItem['TESTING'] = $values['TESTING'];
         }
-        
-        /* otherwise make sure there are no selfish items in the cart */
-        foreach ($woocommerce->cart->get_cart() as $key => $item) {
-            if ($this->isASelfishproduct($item['product_id'])) {
-                $woocommerce->cart->set_quantity($key, 0);
-            }
-        }
-        
-        return true;
+    
+    
+        return $cartItem;
+    }
+    
+    function addItemMeta($itemMeta, $productId) {
+    
+    
+        $itemMeta['TESTING'] = $_POST['meta-test'];
+        return $itemMeta;
     }
     
     private function isASelfishProduct($productId) {

@@ -1,20 +1,27 @@
 <div class="wrap">
     <?php screen_icon('basket-item-metadata'); ?>
     <h2>Basket Item Meta Data Settings</h2>
-    <p>The when products in the selfish category are added to the basket, all other items are removed.</p>
-    <p>When products not in the selfish category are added to the basket, all products in the selfish category are removed.</p>
-    <form id="mbd_wcba_admin_form" method="post" action="options.php">
+    <p>Select the catageory of products which you would like the meta data field restricted to.</p>
+    <p>If no category is selected then the field will be displayed for all products.</p>
+    <p>If no Item Meta Data Name is specified then the field will not be displayed.</p>
+    <form id="mbd_wcbimd_admin_form" method="post" action="options.php">
         <table class="form-table">
             <tr valign="top">
-                <th scope="row">Selfish Category</th>
+                <th scope="row">Item Meta Data Category</th>
                 <td>
-                    <select id="selfishCategory" name="selfishCategory">
+                    <select id="itemMetaDataCategory" name="itemMetaDataCategory">
                         <option value="">Please select</option>
                         <?php foreach ($categories = $this->getProductCategories() as $category): ?>
                             <option value="<?php echo $category->term_id?>" 
-                                <?php echo ($category->term_id == $this->plugin->getConfiguration()->getSelfishCategoryID()) ? "selected='selected'" : "" ?>><?php echo $category->name?></option>
+                                <?php echo ($category->term_id == $this->plugin->getConfiguration()->getShowMetaDataProductCategoryID()) ? "selected='selected'" : "" ?>><?php echo $category->name?></option>
                         <?php endforeach; ?>
                     </select>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row">Item Meta Data Name</th>
+                <td>
+                    <input type="text" id="itemMetaDataName" name="itemMetaDataName" value="<?php echo $this->plugin->getConfiguration()->getMetaDataName(); ?>" />
                 </td>
             </tr>
         </table>

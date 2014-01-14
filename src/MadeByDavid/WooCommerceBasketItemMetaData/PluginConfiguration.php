@@ -5,7 +5,8 @@ namespace MadeByDavid\WooCommerceBasketItemMetaData;
 class PluginConfiguration {
     
     const OPTION_NAME_PREFIX = 'MBD\\WCBIMD';
-    const OPTION_NAME_SELFISH_CATEGORY_ID = 'selfish_cat_id';
+    const OPTION_NAME_SHOW_META_DATA_CATEGORY_ID = 'meta_data_cat_id';
+    const OPTION_NAME_META_DATA_NAME = 'meta_data_name';
     
     public function buildOptionName($optionName) {
         return implode('::', array(
@@ -14,17 +15,31 @@ class PluginConfiguration {
         ));
     }
     
-    public function getSelfishCategoryID() {
+    public function getShowMetaDataProductCategoryID() {
         return get_option(
-            self::buildOptionName(self::OPTION_NAME_SELFISH_CATEGORY_ID),
+            self::buildOptionName(self::OPTION_NAME_SHOW_META_DATA_CATEGORY_ID),
             null
         );
     }
     
-    public function setSelfishCategoryID($categoryID) {
+    public function setShowMetaDataProductCategoryID($categoryID) {
         return update_option(
             self::buildOptionName(self::OPTION_NAME_SELFISH_CATEGORY_ID),
             $categoryID
+        );
+    }
+    
+    public function getMetaDataName() {
+        return get_option(
+            self::buildOptionName(self::OPTION_NAME_META_DATA_NAME),
+            null
+        );
+    }
+    
+    public function setMetaDataName($name) {
+        return update_option(
+            self::buildOptionName(self::OPTION_NAME_META_DATA_NAME),
+            $name
         );
     }
     
