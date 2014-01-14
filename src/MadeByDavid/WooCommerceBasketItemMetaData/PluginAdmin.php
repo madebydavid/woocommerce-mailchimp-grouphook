@@ -75,8 +75,16 @@ class PluginAdmin {
         /* extract the real options from the POST into an array */
         parse_str($_POST['options'], $options);
         
-        if (array_key_exists('selfishCategory', $options)) {
-            $this->plugin->getConfiguration()->setSelfishCategoryID($options['selfishCategory']);
+        if (array_key_exists('itemMetaDataCategory', $options)) {
+            if (0 == strlen($categoryId = $options['itemMetaDataCategory'])) {
+                $categoryId = false;
+            }
+            
+            $this->plugin->getConfiguration()->setShowMetaDataProductCategoryID($categoryId);
+        }
+        
+        if (array_key_exists('itemMetaDataName', $options)) {
+            $this->plugin->getConfiguration()->setMetaDataName($options['itemMetaDataName']);
         }
         
         die();

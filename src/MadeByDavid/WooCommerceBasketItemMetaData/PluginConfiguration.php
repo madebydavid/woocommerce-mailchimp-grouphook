@@ -18,13 +18,13 @@ class PluginConfiguration {
     public function getShowMetaDataProductCategoryID() {
         return get_option(
             self::buildOptionName(self::OPTION_NAME_SHOW_META_DATA_CATEGORY_ID),
-            null
+            false
         );
     }
     
     public function setShowMetaDataProductCategoryID($categoryID) {
         return update_option(
-            self::buildOptionName(self::OPTION_NAME_SELFISH_CATEGORY_ID),
+            self::buildOptionName(self::OPTION_NAME_SHOW_META_DATA_CATEGORY_ID),
             $categoryID
         );
     }

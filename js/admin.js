@@ -2,7 +2,7 @@
 
 jQuery(document).ready(function($) { 
     
-    $('#mbd_wcbimda_admin_form').submit(function(e) {
+    $('#mbd_wcbimd_admin_form').submit(function(e) {
 
         e.preventDefault();
         $.post(
@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
             },
             function(response) {
                 WooCommerceBasketItemMetaData_displayPointerMessage('Changes Saved', $);
-                console.log(response);
+                
                      
                 if (response.error) {
                                 
