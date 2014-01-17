@@ -42,7 +42,7 @@ class Plugin {
             return;
         }
         
-        if (0 == strlen($itemMetaDataFieldName = $this->getConfiguration()->getMetaDataName())) {
+        if (0 == strlen($itemMetaDataFieldName = self::getMetaDataName())) {
             return;
         }
         
@@ -61,24 +61,32 @@ class Plugin {
         
     
     static function getLastPostedMetaDataValue() {
-        return esc_attr($_POST[self::getFieldName()]);
+        return $_REQUEST[self::getFieldName()];
+    }
+    
+    static function getMetaDataName() {
+        static $configuration;
+        if (null == $configuration) {
+            $configuration = new PluginConfiguration();
+        }
+        return $configuration->getMetaDataName();
     }
     
     function addOrderItemMeta($itemId, $cartItem) {
-        if (isset($cartItem[$this->getConfiguration()->getMetaDataName()])) {
+        if (isset($cartItem[self::getMetaDataName()])) {
             woocommerce_add_order_item_meta(
-                $itemId, $this->getConfiguration()->getMetaDataName(), 
-                $cartItem[$this->getConfiguration()->getMetaDataName()] 
+                $itemId, self::getMetaDataName(), 
+                $cartItem[self::getMetaDataName()] 
             );
         }
     }
     
     function getOrderItemMeta($otherData, $cartItem) {
     
-        if (isset($cartItem[$this->getConfiguration()->getMetaDataName()])) {
+        if (isset($cartItem[self::getMetaDataName()])) {
             $otherData[] = array(
-                    'name' => $this->getConfiguration()->getMetaDataName(),
-                    'value'=> $cartItem[$this->getConfiguration()->getMetaDataName()],
+                    'name' => self::getMetaDataName(),
+                    'value'=> $cartItem[self::getMetaDataName()],
                     'display' => 'yes'
             );
         }
@@ -88,8 +96,8 @@ class Plugin {
     
     function getCartItemFromSession($cartItem, $values) {
     
-        if (isset($values[$this->getConfiguration()->getMetaDataName()])) {
-            $cartItem[$this->getConfiguration()->getMetaDataName()] = $values[$this->getConfiguration()->getMetaDataName()];
+        if (isset($values[self::getMetaDataName()])) {
+            $cartItem[self::getMetaDataName()] = $values[self::getMetaDataName()];
         }
     
     
@@ -97,7 +105,7 @@ class Plugin {
     }
     
     function addItemMeta($itemMeta, $productId) {
-        $itemMeta[$this->getConfiguration()->getMetaDataName()] = $_POST[self::getFieldName()];
+        $itemMeta[self::getMetaDataName()] = $_POST[self::getFieldName()];
         return $itemMeta;
     }
     
