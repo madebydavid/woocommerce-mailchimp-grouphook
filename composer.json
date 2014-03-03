@@ -1,10 +1,9 @@
 {
-	"name": "madebydavid/woocommerce-basket-item-metadata",
-	"description": "Add a custom metadata field to the product page when someone orders an item",
+	"name": "madebydavid/woocommerce-mailchimp-grouphook",
+	"description": Hooks into the woocommerce-mailchimp plugin to set the groups based on items / vouchers",
 	"type": "wordpress-plugin",
 	"require": {
-		"composer/installers": "~1.0",
-        "phpunit/phpunit": "3.7.*"
+		"composer/installers": "~1.0"
 	},
     "autoload":	{
 		"psr-0": {
