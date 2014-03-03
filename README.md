@@ -1,4 +1,4 @@
-woocommerce-basket-item-metadata
-================================
+woocommerce-mailchimp-grouphook
+===============================
 
-Add a custom metadata field to the product page when someone orders an item
+Hooks into the woocommerce-mailchimp plugin to set the groups based on items / vouchers
