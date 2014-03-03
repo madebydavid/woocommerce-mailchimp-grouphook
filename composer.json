@@ -1,6 +1,6 @@
 {
 	"name": "madebydavid/woocommerce-mailchimp-grouphook",
-	"description": Hooks into the woocommerce-mailchimp plugin to set the groups based on items / vouchers",
+	"description": "Hooks into the woocommerce-mailchimp plugin to set the groups based on items / vouchers",
 	"type": "wordpress-plugin",
 	"require": {
 		"composer/installers": "~1.0"
