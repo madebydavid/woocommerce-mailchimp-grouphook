@@ -5,7 +5,11 @@ namespace MadeByDavid\WooCommerceMailChimpGroupHook;
 class Plugin {
     
     const TRANSLATE_DOMAIN = 'madebydavid-woocommercemailchimpgrouphook';
-
+    
+    const COOKING_CLASS_CATEGORY_SLUG = "classes";
+    const GIFT_VOUCHER_CATEGORY_SLUG = "giftvouchers"; 
+    
+    protected $orderId;
     
     function __construct() {
         
@@ -21,15 +25,69 @@ class Plugin {
         
     }
     
+    public function setOrderId($orderId) {
+        $this->orderId = $orderId;
+    }
+    
+    public function getOrderId() {
+        return $this->orderId;
+    }
     
     public function orderStatusChanged($id, $status = 'new', $new_status = 'pending' ) {
-       
-        error_log("orderStatusChanged");
+        $this->setOrderId($id);
     }
     
     public function determineMailchimpGroups($mergeVars) {
         
-        error_log("determineMailchimpGroups");
+        $groups = array();
+        
+        $order = new \WC_Order($this->getOrderId());
+        
+        foreach ($order->get_items() as $id => $item) {
+            
+            if (false === ($categories = get_the_terms($item['product_id'], 'product_cat'))) {
+                continue;
+            }
+            
+            foreach ($categories as $category) {
+                if (self::COOKING_CLASS_CATEGORY_SLUG == $category->slug) {
+                    $groups[] = 'Sushi Lesson';
+                }
+                
+                if (self::GIFT_VOUCHER_CATEGORY_SLUG == $category->slug) {
+                    $groups[] = 'Gift Voucher';
+                }
+                
+            }
+            
+        }
+        
+        $bookingType = '';
+        foreach ($coupons = $order->get_used_coupons() as $couponCode) {
+            $coupon = new \WC_Coupon($couponCode);
+        
+            if (null == ($type = get_post_meta($coupon->id, 'SocialVouchersType', true))) {
+                continue;
+            }
+        
+            $bookingType = str_replace(
+                array('MadeByDavidVoucherProvider', 'AmazonLocal', 'LivingSocial', 'TimeOut'),
+                array('', 'Amazon Local', 'Living Social', 'Time Out'), $type
+            );
+        
+        }
+        
+        if (0 != strlen($bookingType)) {
+            $groups[] = $bookingType;
+        }
+        
+        
+        if (0 != count($groups)) {
+            $mergeVars['GROUPINGS'] = array(array(
+                'name' => 'Customer Source',
+                'groups' => implode(', ', $groups)
+            ));
+        }
         
         return $mergeVars;
     }
