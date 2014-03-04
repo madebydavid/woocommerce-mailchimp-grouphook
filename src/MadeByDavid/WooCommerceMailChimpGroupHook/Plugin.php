@@ -16,6 +16,7 @@ class Plugin {
         add_action('init', array($this, 'init'), 0);
         
         add_action('woocommerce_order_status_changed', array($this, 'orderStatusChanged'), 0, 3);
+        add_action('woocommerce_thankyou', array($this, 'orderStatusChanged'), 0, 1);
         
         add_filter('ss_wc_mailchimp_subscribe_merge_vars', array($this, 'determineMailchimpGroups'));
         
@@ -38,7 +39,7 @@ class Plugin {
     }
     
     public function determineMailchimpGroups($mergeVars) {
-        
+
         $groups = array();
         
         $order = new \WC_Order($this->getOrderId());
