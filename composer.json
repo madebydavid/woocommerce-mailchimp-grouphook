@@ -1,14 +1,29 @@
 {
-	"name": "madebydavid/woocommerce-mailchimp-grouphook",
-	"description": "Hooks into the woocommerce-mailchimp plugin to set the groups based on items / vouchers",
-	"type": "wordpress-plugin",
-	"require": {
-		"composer/installers": "~1.0"
-	},
-    "autoload":	{
-		"psr-0": {
-			"MadeByDavid"		: "src/"
-		}
-	}
+    "name": "madebydavid/woocommerce-mailchimp-grouphook",
+    "description": "Hooks into the woocommerce-mailchimp plugin to set the groups based on items / vouchers",
+    "type": "wordpress-plugin",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "googlecode/blockly",
+                "version": "0.1",
+                "source": {
+                    "type": "svn",
+                    "url": "http://blockly.googlecode.com/svn/",
+                    "reference": "trunk@1657"
+                }
+            }
+        }
+    ], 
+    "require": {
+        "composer/installers": "~1.0",
+        "googlecode/blockly": "0.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "MadeByDavid"        : "src/"
+        }
+    }
 
 }
