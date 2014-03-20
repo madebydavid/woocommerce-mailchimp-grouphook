@@ -14,11 +14,24 @@
                     "reference": "trunk@1657"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "googlecode/closure-library",
+                "version": "0.1",
+                "source": {
+                    "type": "svn",
+                    "url": "https://closure-library.googlecode.com/svn/",
+                    "reference": "trunk@2520"
+                }
+            }
         }
     ], 
     "require": {
         "composer/installers": "~1.0",
-        "googlecode/blockly": "0.1"
+        "googlecode/blockly": "0.1",
+        "googlecode/closure-library": "0.1"
     },
     "autoload": {
         "psr-0": {
