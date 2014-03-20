@@ -7,6 +7,19 @@ class PluginAdmin {
     const ADMIN_SCRIPT_ID = 'madebydavid-woocommercemailchimpgrouphook-admin-javascript';
     const ADMIN_AJAX_ACTION = 'madebydavid-woocommercemailchimpgrouphook-admin-ajax-action';
     
+    const ADMIN_BLOCKLY_SCRIPT_ID = 'blockly';
+    const ADMIN_BLOCKLY_BLOCKS_SCRIPT_ID = 'blockly-blocks';
+    const ADMIN_BLOCKLY_MESSAGES_SCRIPT_ID = 'blockly-messages';
+    
+    const ADMIN_BLOCKLY_COLOUR = 'bl-colour';
+    const ADMIN_BLOCKLY_LISTS = 'bl-lists';
+    const ADMIN_BLOCKLY_LOGIC = 'bl-logic';
+    const ADMIN_BLOCKLY_LOOPS = 'bl-loops';
+    const ADMIN_BLOCKLY_MATH = 'bl-math';
+    const ADMIN_BLOCKLY_PROCEDURES = 'bl-procedures';
+    const ADMIN_BLOCKLY_TEXT = 'bl-text';
+    const ADMIN_BLOCKLY_VARIABLES = 'bl-variables';
+    
     private $plugin;
     private $warningText;
     
@@ -18,7 +31,7 @@ class PluginAdmin {
         
         $this->plugin = $plugin;
         
-        /* priority must be low so that the booking plugin adds the menu first */
+        
         add_action('admin_menu', array($this, 'registerAdminMenu'), 100);
         add_action('admin_head', array($this, 'registerAdminCss'));
         add_action('admin_init', array($this, 'registerAdminJavascript'));
@@ -61,9 +74,69 @@ class PluginAdmin {
     function registerAdminJavascript() {
         wp_register_script(
             self::ADMIN_SCRIPT_ID,
-            WOOCOMMERCE_MAILCHIMPGROUPHOOK_DIR . 'js/admin.js',
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL . 'js/admin.js',
             array('jquery')
         );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_SCRIPT_ID,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blockly_uncompressed.js',
+            array(),
+            null
+        );
+        
+
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_MESSAGES_SCRIPT_ID,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/msg/js/en.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_MESSAGES_SCRIPT_ID,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/msg/js/en.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_COLOUR,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/colour.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_LISTS,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/lists.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_LOGIC,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/logic.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_LOOPS,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/loops.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_MATH,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/math.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_PROCEDURES,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/procedures.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_TEXT,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/text.js'
+        );
+        
+        wp_register_script(
+            self::ADMIN_BLOCKLY_VARIABLES,
+            WOOCOMMERCE_MAILCHIMPGROUPHOOK_URL .'blockly/blocks/variables.js'
+        );
+        
     }
     
     function registerAdminAjax() {
@@ -95,13 +168,26 @@ class PluginAdmin {
     
     function enqueueAdminJavascript() {
         wp_enqueue_script(self::ADMIN_SCRIPT_ID);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_SCRIPT_ID);
+        
+        wp_enqueue_script(self::ADMIN_BLOCKLY_MESSAGES_SCRIPT_ID);
+        
+        wp_enqueue_script(self::ADMIN_BLOCKLY_COLOUR);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_LISTS);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_LOGIC);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_LOOPS);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_MATH);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_PROCEDURES);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_TEXT);
+        wp_enqueue_script(self::ADMIN_BLOCKLY_VARIABLES);
+        
         /* need to manually enqueue these for non admin users */
         wp_enqueue_style('wp-pointer');
         wp_enqueue_script('wp-pointer');
         /* setup script variables for webservice */
         wp_localize_script(
             self::ADMIN_SCRIPT_ID,
-            'WooCommerceBookingRescheduler',
+            'WooCommerceMailChimpGroupHook',
             array(
                 'webServiceUrl' => admin_url('admin-ajax.php'),
                 'webServiceAction' => self::ADMIN_AJAX_ACTION,

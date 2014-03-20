@@ -11,6 +11,19 @@
                 <td><input type="text" name="reschedulePeriodDays" value="" /></td>
             </tr>
         </table>
+        
+        <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+        <xml id="toolbox" style="display: none">
+            <block type="controls_if"></block>
+            <block type="controls_repeat_ext"></block>
+            <block type="logic_compare"></block>
+            <block type="math_number"></block>
+            <block type="text"></block>
+            <block type="text_length"></block>
+            <block type="property_check"></block>
+            <block type="variables_get"></block>
+        </xml>
+          
         <p class="submit">
             <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
         </p>
