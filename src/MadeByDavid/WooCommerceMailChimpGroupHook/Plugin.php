@@ -10,8 +10,13 @@ class Plugin {
     const GIFT_VOUCHER_CATEGORY_SLUG = "giftvouchers"; 
     
     protected $orderId;
+    private $admin;
     
     function __construct() {
+        
+        if (is_admin()) {
+            $this->admin = new PluginAdmin($this);
+        }
         
         add_action('init', array($this, 'init'), 0);
         
